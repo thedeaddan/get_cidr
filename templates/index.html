@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор маршрутов</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Генератор маршрутов (.bat)</h1>
+        <form method="POST">
+            <textarea name="input_data" rows="10" placeholder="Введите IP, CIDR или домены по одному на строку..."></textarea>
+            <button type="submit">Сгенерировать</button>
+        </form>
+
+        {% if summary.total %}
+        <div class="summary">
+            <p><b>Маршрутов:</b> {{ summary.total }}</p>
+            <p><b>Уникальных IP:</b> {{ summary.unique_ips }}</p>
+            <p><b>Домены:</b> {{ summary.domains }}</p>
+        </div>
+
+        <div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Ввод</th>
+                <th>IP</th>
+                <th>CIDR</th>
+                <th>Команда</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orig, ip, cidr, cmd in route_data %}
+            <tr>
+                <td>{{ orig }}</td>
+                <td>{{ ip }}</td>
+                <td>{{ cidr }}</td>
+                <td><code>{{ cmd }}</code></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+        {% endif %}
+
+        {% if errors %}
+        <div class="error">
+            <h3>Ошибки:</h3>
+            <ul>
+                {% for err in errors %}
+                <li>{{ err }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
