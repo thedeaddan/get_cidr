@@ -13,12 +13,12 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(16))
 app.permanent_session_lifetime = timedelta(hours=1)
 app.config.update(
-    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_SECURE=False, #Отключено т.к. проект локальный
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
 )
 
-Talisman(app)
+Talisman(app,force_https=False) # Отключен HTTPS т.к. проект локальный
 
 TEMP_DIR = "tmp"
 os.makedirs(TEMP_DIR, exist_ok=True)
