@@ -12,6 +12,10 @@
             <textarea name="input_data" rows="10" placeholder="Введите IP, CIDR или домены по одному на строку..."></textarea>
             <button type="submit">Сгенерировать</button>
         </form>
+        {% if summary.total %}
+            <a href="/download" class="download-btn">⬇ Скачать .bat</a>
+        {% endif %}
+
 
         {% if summary.total %}
         <div class="summary">
@@ -55,6 +59,17 @@
             </ul>
         </div>
         {% endif %}
+        {% if history %}
+    <div class="history">
+        <h3>История запросов</h3>
+        <ul>
+            {% for h in history %}
+                <li>Ввод: {{ h.input|join(', ') }} — <b>{{ h.count }}</b> маршрутов</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
     </div>
 </body>
 </html>

@@ -90,3 +90,33 @@ code {
     font-size: 0.9em;
     color: #00cc88;
 }
+.download-btn {
+    display: inline-block;
+    margin-top: 1em;
+    background: #0077ff;
+    color: white;
+    padding: 0.7em 1.2em;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.download-btn:hover {
+    background: #005dc6;
+}
+
+.history {
+    margin-top: 2em;
+    background: #2d2d2d;
+    padding: 1em;
+    border-radius: 8px;
+}
+
+.history ul {
+    padding-left: 1.2em;
+}
+
+.history li {
+    margin-bottom: 0.5em;
+    color: #ccc;
+}
