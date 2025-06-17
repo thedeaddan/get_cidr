@@ -1,2 +1,11 @@
+# Virtual environment
 /venv
+
+# Temporary batch files
 *.bat
+
+# Temporary directory for generated files
+tmp/
+
+# Python cache
+__pycache__/
