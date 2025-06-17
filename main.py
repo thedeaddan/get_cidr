@@ -18,7 +18,9 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="Lax",
 )
 
-Talisman(app)
+# Only force HTTPS when explicitly enabled
+force_https = os.environ.get("FORCE_HTTPS", "0") == "1"
+Talisman(app, force_https=force_https, content_security_policy=None)
 
 TEMP_DIR = "tmp"
 os.makedirs(TEMP_DIR, exist_ok=True)
