@@ -15,7 +15,7 @@
  
  1. Склонируйте репозиторий:
     ```bash
-    git clone <repo>
+    git clone https://github.com/thedeaddan/get_cidr
     ```
  2. Установите зависимости:
     ```bash
