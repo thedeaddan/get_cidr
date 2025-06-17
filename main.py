@@ -1,12 +1,35 @@
 from flask import Flask, render_template, request, session, send_file, redirect, url_for
-import ipaddress, socket, subprocess, re, tempfile, os
+from flask_talisman import Talisman
+import ipaddress
+import socket
+import subprocess
+import re
+import tempfile
+import os
+import secrets
 from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = 'your-super-secret-key'
+app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(16))
 app.permanent_session_lifetime = timedelta(hours=1)
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+)
 
-TEMP_BAT_PATH = "generated_routes.bat"
+Talisman(app)
+
+TEMP_DIR = "tmp"
+os.makedirs(TEMP_DIR, exist_ok=True)
+
+
+@app.before_request
+def ensure_temp_file():
+    if "bat_path" not in session:
+        fd, path = tempfile.mkstemp(suffix=".bat", dir=TEMP_DIR)
+        os.close(fd)
+        session["bat_path"] = path
 
 def cidr_to_netmask(cidr: str):
     net = ipaddress.ip_network(cidr, strict=False)
@@ -61,13 +84,16 @@ def generate_route_data(input_list):
             try:
                 if '/' in item:
                     network, netmask = cidr_to_netmask(item)
+                    ip_value = network
                 else:
                     ip = ipaddress.ip_address(item)
+                    ip_value = str(ip)
                     network, netmask = str(ip), '255.255.255.255'
                 route = f'route add {network} mask {netmask} 0.0.0.0'
                 if route not in seen:
                     seen.add(route)
-                    route_data.append((item, str(ip), f"{network}/{ipaddress.IPv4Network(network + '/' + netmask).prefixlen}", route))
+                    cidr_str = f"{network}/{ipaddress.IPv4Network(network + '/' + netmask).prefixlen}"
+                    route_data.append((item, ip_value, cidr_str, route))
             except:
                 errors.append(f"{item} → ❌ ошибка IP")
 
@@ -84,7 +110,8 @@ def index():
         commands = [cmd for _, _, _, cmd in route_data]
 
         # сохранить .bat
-        with open(TEMP_BAT_PATH, "w", encoding="utf-8") as f:
+        bat_path = session.get("bat_path")
+        with open(bat_path, "w", encoding="utf-8") as f:
             f.write("\n".join(commands))
 
         # сохранить историю
@@ -102,8 +129,9 @@ def index():
 
 @app.route("/download")
 def download():
-    if os.path.exists(TEMP_BAT_PATH):
-        return send_file(TEMP_BAT_PATH, as_attachment=True, download_name="routes.bat")
+    bat_path = session.get("bat_path")
+    if bat_path and os.path.exists(bat_path):
+        return send_file(bat_path, as_attachment=True, download_name="routes.bat")
     return redirect(url_for("index"))
 
 if __name__ == "__main__":

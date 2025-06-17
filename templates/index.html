@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Генератор маршрутов</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container main-container fade-in">
         <h1>Генератор маршрутов (.bat)</h1>
         <form method="POST">
-            <textarea name="input_data" rows="10" placeholder="Введите IP, CIDR или домены по одному на строку..."></textarea>
-            <button type="submit">Сгенерировать</button>
+            <textarea name="input_data" class="form-control" rows="10" placeholder="Введите IP, CIDR или домены по одному на строку..."></textarea>
+            <button type="submit" class="btn btn-success mt-3">Сгенерировать</button>
         </form>
         {% if summary.total %}
-            <a href="/download" class="download-btn">⬇ Скачать .bat</a>
+            <a href="/download" class="btn btn-primary download-btn">⬇ Скачать .bat</a>
         {% endif %}
 
 
         {% if summary.total %}
-        <div class="summary">
+        <div class="summary alert alert-secondary mt-3">
             <p><b>Маршрутов:</b> {{ summary.total }}</p>
             <p><b>Уникальных IP:</b> {{ summary.unique_ips }}</p>
             <p><b>Домены:</b> {{ summary.domains }}</p>
         </div>
 
         <div class="table-wrapper">
-    <table>
+    <table class="table table-dark table-striped">
         <thead>
             <tr>
                 <th>Ввод</th>
@@ -50,7 +51,7 @@
         {% endif %}
 
         {% if errors %}
-        <div class="error">
+        <div class="error alert alert-danger mt-3">
             <h3>Ошибки:</h3>
             <ul>
                 {% for err in errors %}
@@ -60,7 +61,7 @@
         </div>
         {% endif %}
         {% if history %}
-    <div class="history">
+    <div class="history alert alert-dark mt-3">
         <h3>История запросов</h3>
         <ul>
             {% for h in history %}
@@ -71,5 +72,6 @@
 {% endif %}
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
