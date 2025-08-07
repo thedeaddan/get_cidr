@@ -1,6 +1,7 @@
+/* Общие стили страницы */
 body {
-    font-family: sans-serif;
-    background: #1e1e1e;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e1e1e 0%, #121212 100%);
     color: #f1f1f1;
     display: flex;
     justify-content: center;
@@ -10,6 +11,7 @@ body {
     margin: 0;
 }
 
+/* Контейнер основного содержимого */
 .main-container {
     background: #2a2a2a;
     padding: 2em;
@@ -19,6 +21,7 @@ body {
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
+/* Текстовое поле ввода */
 textarea {
     width: 100%;
     padding: 1em;
@@ -30,6 +33,7 @@ textarea {
     resize: vertical;
 }
 
+/* Кнопки */
 button {
     margin-top: 1em;
     padding: 0.8em 1.5em;
@@ -45,6 +49,7 @@ button:hover {
     background: #00aa77;
 }
 
+/* Блок ошибок */
 .error {
     background: #ff4444;
     padding: 0.5em;
@@ -53,6 +58,7 @@ button:hover {
     color: white;
 }
 
+/* Краткая сводка */
 .summary {
     background: #333;
     padding: 1em;
@@ -60,6 +66,7 @@ button:hover {
     border-radius: 8px;
 }
 
+/* Обёртка таблицы */
 .table-wrapper {
     margin-top: 1.5em;
     overflow-x: auto;
@@ -67,6 +74,7 @@ button:hover {
     border: 1px solid #444;
 }
 
+/* Таблица с маршрутами */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -85,11 +93,14 @@ th {
     font-weight: bold;
 }
 
+/* Команды маршрутов */
 code {
     font-family: monospace;
     font-size: 0.9em;
     color: #00cc88;
 }
+
+/* Ссылка скачивания */
 .download-btn {
     display: inline-block;
     margin-top: 1em;
@@ -105,6 +116,7 @@ code {
     background: #005dc6;
 }
 
+/* История запросов */
 .history {
     margin-top: 2em;
     background: #2d2d2d;
@@ -121,6 +133,7 @@ code {
     color: #ccc;
 }
 
+/* Анимация появления */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
