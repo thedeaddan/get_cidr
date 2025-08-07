@@ -9,22 +9,28 @@
 <body>
     <div class="container main-container fade-in">
         <h1>Генератор маршрутов (.bat)</h1>
+        <p class="lead">Конвертируйте домены и IP в команды маршрутизации</p>
+
+        <!-- Форма ввода -->
         <form method="POST">
-            <textarea name="input_data" class="form-control" rows="10" placeholder="Введите IP, CIDR или домены по одному на строку..."></textarea>
+            <textarea name="input_data" class="form-control" rows="10" placeholder="Введите IP, CIDR или домены по одному на строку...">{{ request.form.get('input_data','') }}</textarea>
             <button type="submit" class="btn btn-success mt-3">Сгенерировать</button>
         </form>
         {% if summary.total %}
+            <!-- Кнопка скачивания появится только при наличии данных -->
             <a href="/download" class="btn btn-primary download-btn">⬇ Скачать .bat</a>
         {% endif %}
 
 
         {% if summary.total %}
+        <!-- Блок с краткой сводкой -->
         <div class="summary alert alert-secondary mt-3">
             <p><b>Маршрутов:</b> {{ summary.total }}</p>
             <p><b>Уникальных IP:</b> {{ summary.unique_ips }}</p>
             <p><b>Домены:</b> {{ summary.domains }}</p>
         </div>
 
+        <!-- Таблица с результатами -->
         <div class="table-wrapper">
     <table class="table table-dark table-striped">
         <thead>
@@ -51,6 +57,7 @@
         {% endif %}
 
         {% if errors %}
+        <!-- Сообщения об ошибках -->
         <div class="error alert alert-danger mt-3">
             <h3>Ошибки:</h3>
             <ul>
@@ -61,6 +68,7 @@
         </div>
         {% endif %}
         {% if history %}
+    <!-- История последних запросов -->
     <div class="history alert alert-dark mt-3">
         <h3>История запросов</h3>
         <ul>
